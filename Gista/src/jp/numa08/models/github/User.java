@@ -20,7 +20,10 @@ public class User {
 
 	public boolean appendExp(int expr) {
 		this.exp += expr;
-		level++;
+		if(this.exp > level * 10) {
+			level++;
+			this.exp -= level * 10;
+		}
 		return exp > 0;
 	}
 
