@@ -1,8 +1,6 @@
 package jp.numa08.gista;
 
-import jp.numa08.models.gist.FavGistDB;
 import jp.numa08.models.gist.Gist;
-import jp.numa08.models.github.User;
 import jp.numa08.models.github.UserDB;
 import jp.numa08.view.FavGistTabListener;
 import jp.numa08.view.GistListFragment;
@@ -20,7 +18,6 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemLongClickListener;
-import android.widget.Toast;
 
 public class Gista extends Activity implements OnItemClickListener,
 		OnItemLongClickListener {
