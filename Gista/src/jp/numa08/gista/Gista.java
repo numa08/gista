@@ -74,17 +74,8 @@ public class Gista extends Activity implements OnItemClickListener,
 	public boolean onItemLongClick(AdapterView<?> adapter, View arg1,
 			int position, long arg3) {
 		final Gist gist = (Gist) adapter.getItemAtPosition(position);
-		new FavGistDB(this).insert(gist);
-
-		User old = new UserDB(this).me();
-		User now = new User(old);
-		now.appendExp(10);
-		if (now.getLevel() > old.getLevel()) {
-			Toast.makeText(this,
-					String.format("レベルが%dに上がった！！", now.getLevel()),
-					Toast.LENGTH_SHORT).show();
-			new UserDB(this).update(now);
-		}
+		GistaFav gistafav = new GistaFav(this);
+		gistafav.fav(gist);
 		return true;
 	}
 
