@@ -13,7 +13,7 @@ public class FavGistDB {
 	public static final String NAME = "favgist.db";
 
 	public enum Scheme {
-		id, file_name, description, user_name, row_url, favgist, language;
+		id, file_name, description, user_name, row_url, favgist, language, gist_id;
 	}
 
 	final FavGistDBHelper helper;
@@ -30,6 +30,7 @@ public class FavGistDB {
 		values.put(Scheme.description.name(), gist.getDescription());
 		values.put(Scheme.row_url.name(), gist.getRowUrl());
 		values.put(Scheme.language.name(), gist.getLanguage().name());
+		values.put(Scheme.gist_id.name(), gist.getId());
 		db.insert(Scheme.favgist.name(), "", values);
 		db.close();
 	}
@@ -51,9 +52,11 @@ public class FavGistDB {
 					.getColumnIndex(Scheme.row_url.name()));
 			final Language language = Gist.selectLanguage(cursor
 					.getString(cursor.getColumnIndex(Scheme.language.name())));
+			final String gistId = cursor.getString(cursor
+					.getColumnIndex(Scheme.gist_id.name()));
 			hasNext = cursor.moveToNext();
 			final Gist gist = new Gist(userName, fileName, rowUrl, description,
-					language);
+					language, gistId);
 			gists.add(gist);
 		}
 		cursor.close();

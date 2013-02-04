@@ -8,19 +8,21 @@ public class Gist {
 	private String rowUrl;
 	private String description;
 	private Language language;
+	private String id;
 
 	public enum Language {
 		other, javascript, scala, java, ruby, ;
 	}
 
 	public Gist(String userName, String fileName, String rowUrl,
-			String description, Language language) {
+			String description, Language language, String id) {
 		super();
 		this.userName = userName;
 		this.fileName = fileName;
 		this.rowUrl = rowUrl;
 		this.description = description;
 		this.language = language;
+		this.id = id;
 	}
 
 	public static Language selectLanguage(String language) {
@@ -58,6 +60,10 @@ public class Gist {
 
 	public Language getLanguage() {
 		return language;
+	}
+
+	public String getId() {
+		return id;
 	}
 
 }

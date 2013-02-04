@@ -12,7 +12,8 @@ public class GistJsonParser implements JsonParser<Gist> {
 
 	private enum GistJson {
 		DESCRIPTION("description"), FILE("files"), FILE_NAME("filename"), ROW_URL(
-				"raw_url"), USER("user"), LOGIN("login"), LANGUAGE("language");
+				"raw_url"), USER("user"), LOGIN("login"), LANGUAGE("language"), ID(
+				"id");
 		private final String key;
 
 		private GistJson(final String key) {
@@ -26,12 +27,13 @@ public class GistJsonParser implements JsonParser<Gist> {
 
 	@Override
 	public Gist toObject(JSONObject json) {
-		String userName, description, fileName, rowUrl;
+		String userName, description, fileName, rowUrl, id;
 		Language language = Language.other;
-		userName = description = fileName = rowUrl = "";
+		userName = description = fileName = rowUrl = id = "";
 		try {
 			userName = accureireUserName(json);
 			description = accureireDescription(json);
+			id = accureireId(json);
 			final JSONObject files = json.getJSONObject(GistJson.FILE.key());
 			final Iterator<String> keys = files.keys();
 			while (keys.hasNext()) {
@@ -40,10 +42,12 @@ public class GistJsonParser implements JsonParser<Gist> {
 				rowUrl = accureireRowUrl(file);
 				language = accurireLanguage(file);
 			}
-			return new Gist(userName, fileName, rowUrl, description, language);
+			return new Gist(userName, fileName, rowUrl, description, language,
+					id);
 		} catch (JSONException e) {
 			e.printStackTrace();
-			return new Gist(userName, fileName, rowUrl, description, language);
+			return new Gist(userName, fileName, rowUrl, description, language,
+					id);
 		}
 	}
 
@@ -53,6 +57,13 @@ public class GistJsonParser implements JsonParser<Gist> {
 		}
 		JSONObject user = root.getJSONObject(GistJson.USER.key());
 		return user.getString(GistJson.LOGIN.key());
+	}
+
+	private String accureireId(JSONObject root) throws JSONException {
+		if (root.isNull(GistJson.ID.key())) {
+			return "";
+		}
+		return root.getString(GistJson.ID.key());
 	}
 
 	private String accureireFileName(JSONObject file) throws JSONException {

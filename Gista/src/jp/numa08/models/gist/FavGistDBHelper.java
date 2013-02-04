@@ -19,7 +19,8 @@ public class FavGistDBHelper extends SQLiteOpenHelper {
 				+ FavGistDB.Scheme.description.name() + " TEXT, "
 				+ FavGistDB.Scheme.user_name.name() + " TEXT, "
 				+ FavGistDB.Scheme.row_url.name() + " TEXT, "
-				+ FavGistDB.Scheme.language.name() + " TEXT);");
+				+ FavGistDB.Scheme.language.name() + " TEXT,"
+				+ FavGistDB.Scheme.gist_id.name() + " TEXT); ");
 	}
 
 	@Override
