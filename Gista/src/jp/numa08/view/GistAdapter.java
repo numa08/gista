@@ -39,7 +39,7 @@ public class GistAdapter extends ArrayAdapter<Gist> {
 			convertView = mInflater.inflate(R.layout.row_gist, null);
 		}
 		final Gist gist = getItem(position);
-		
+
 		((TextView) convertView.findViewById(R.id.filne_name)).setText(gist
 				.getFileName());
 		((TextView) convertView.findViewById(R.id.description)).setText(gist
@@ -57,19 +57,23 @@ public class GistAdapter extends ArrayAdapter<Gist> {
 		case scala:
 			languageImage = R.drawable.scala;
 			break;
+		case ruby:
+			languageImage = R.drawable.ruby;
+			break;
 		default:
 			languageImage = R.drawable.ic_launcher;
 			break;
 		}
-		ImageView language_image = (ImageView) convertView.findViewById(R.id.language_image);
+		ImageView language_image = (ImageView) convertView
+				.findViewById(R.id.language_image);
 		language_image.setImageResource(languageImage);
 		language_image.setClickable(true);
 		language_image.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-        		gistafav.fav(gist);
-            }
-        });
+			@Override
+			public void onClick(View v) {
+				gistafav.fav(gist);
+			}
+		});
 		return convertView;
 	}
 }

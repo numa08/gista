@@ -10,7 +10,7 @@ public class Gist {
 	private Language language;
 
 	public enum Language {
-		other, javascript, scala, java, ;
+		other, javascript, scala, java, ruby, ;
 	}
 
 	public Gist(String userName, String fileName, String rowUrl,
@@ -30,6 +30,8 @@ public class Gist {
 			return Language.java;
 		} else if (language.equalsIgnoreCase("scala")) {
 			return Language.scala;
+		} else if (language.equalsIgnoreCase("ruby")) {
+			return Language.ruby;
 		}
 		return Language.other;
 	}
