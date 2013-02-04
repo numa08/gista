@@ -15,33 +15,41 @@ import android.util.Log;
 
 public class GistLoader extends AsyncTaskLoader<List<Gist>> {
 
-	public GistLoader(Context context) {
-		super(context);
-	}
+    private List<Gist> mData;
 
-	@Override
-	protected void onStartLoading() {
-		super.onStartLoading();
-		forceLoad();
-	}
+    public GistLoader(Context context) {
+        super(context);
+    }
 
-	@Override
-	public List<Gist> loadInBackground() {
-		final Github github = GithubFactory.instance();
-		try {
-			List<Gist> data = github.publicGists();
-			return data;
-		} catch (ClientProtocolException e) {
-			Log.e("Gista!", "network error");
-			e.printStackTrace();
-		} catch (IOException e) {
-			Log.e("Gista!", "content error");
-			e.printStackTrace();
-		} catch (JSONException e) {
-			Log.e("Gista!", "content error");
-			e.printStackTrace();
-		}
-		return null;
-	}
+    @Override
+    protected void onStartLoading() {
+        super.onStartLoading();
+
+        if (mData != null) {
+            deliverResult(mData);
+        } else {
+            forceLoad();
+        }
+
+    }
+
+    @Override
+    public List<Gist> loadInBackground() {
+        final Github github = GithubFactory.instance();
+        try {
+            mData = github.publicGists();
+            return mData;
+        } catch (ClientProtocolException e) {
+            Log.e("Gista!", "network error");
+            e.printStackTrace();
+        } catch (IOException e) {
+            Log.e("Gista!", "content error");
+            e.printStackTrace();
+        } catch (JSONException e) {
+            Log.e("Gista!", "content error");
+            e.printStackTrace();
+        }
+        return null;
+    }
 
 }
