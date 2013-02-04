@@ -63,7 +63,7 @@ public class Gist {
 	}
 
 	public String getId() {
-		return id;
+		return returnContent(id);
 	}
 
 }

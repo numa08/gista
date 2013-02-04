@@ -35,6 +35,35 @@ public class FavGistDB {
 		db.close();
 	}
 
+	public Gist select(Gist gist) {
+		final SQLiteDatabase db = helper.getReadableDatabase();
+		final Cursor cursor = db.query(Scheme.favgist.name(), null,
+				Scheme.gist_id.name() + " = ? ", new String[] { gist.getId() },
+				null, null, null);
+		boolean hasNext = cursor.moveToFirst();
+		Gist g = null;
+		while (hasNext) {
+			final String userName = cursor.getString(cursor
+					.getColumnIndex(Scheme.user_name.name()));
+			final String description = cursor.getString(cursor
+					.getColumnIndex(Scheme.description.name()));
+			final String fileName = cursor.getString(cursor
+					.getColumnIndex(Scheme.file_name.name()));
+			final String rowUrl = cursor.getString(cursor
+					.getColumnIndex(Scheme.row_url.name()));
+			final Language language = Gist.selectLanguage(cursor
+					.getString(cursor.getColumnIndex(Scheme.language.name())));
+			final String gistId = cursor.getString(cursor
+					.getColumnIndex(Scheme.gist_id.name()));
+			hasNext = cursor.moveToNext();
+			g = new Gist(userName, fileName, rowUrl, description, language,
+					gistId);
+		}
+		cursor.close();
+		db.close();
+		return g;
+	}
+
 	public List<Gist> all() {
 		final SQLiteDatabase db = helper.getReadableDatabase();
 		final List<Gist> gists = new ArrayList<Gist>();
@@ -63,4 +92,5 @@ public class FavGistDB {
 		db.close();
 		return gists;
 	}
+
 }
